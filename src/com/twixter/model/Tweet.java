@@ -42,5 +42,8 @@ public class Tweet {
 		this.text = text;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		return this.id == ((Tweet)obj).id;
+	}
 }

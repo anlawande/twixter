@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.twixter.dao.TwixterDao;
+import com.twixter.model.Person;
 import com.twixter.model.Tweet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -18,12 +19,18 @@ public class TweetsTest {
 	
 	@Autowired
 	TwixterDao dao;
+	
+	boolean containsTweet(List<Tweet> tweets, int id) {
+		Tweet tmp = new Tweet();
+		tmp.setId(id);
+		return tweets.contains(tmp);
+	}
 
 	@Test
 	public void TweetsForUser() {
 		List<Tweet> tweets = dao.getTweetsForPerson(1);
 		Assert.assertEquals("Should have 2 tweets", tweets.size() , 2);
-		Assert.assertEquals("Should be the first tweet", tweets.get(0).id , 1);
+		Assert.assertTrue("Should be the first tweet", containsTweet(tweets, 1));
 		Assert.assertEquals("Text should be same", tweets.get(0).text , "This is some sample text");
 	}
 	

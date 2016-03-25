@@ -53,4 +53,20 @@ public class TwixterDao {
     	List<Person> p = (List<Person>) jdbcTemplate.query(sql, namedParameters, new Person.PersonMapper());
     	return p;
     }
+    
+    public void addFollowing(int follower, int following) {
+    	String sql = "INSERT INTO personfollower (follower, following) VALUES (:follower, :following);";
+    	Map<String, Object> namedParameters = new HashMap<String, Object>();
+    	namedParameters.put("follower", follower);
+    	namedParameters.put("following", following);
+    	jdbcTemplate.update(sql, namedParameters);
+    }
+    
+    public void removeFollowing(int follower, int following) {
+    	String sql = "DELETE FROM personfollower WHERE follower = :follower AND following = :following;";
+    	Map<String, Object> namedParameters = new HashMap<String, Object>();
+    	namedParameters.put("follower", follower);
+    	namedParameters.put("following", following);
+    	jdbcTemplate.update(sql, namedParameters);
+    }
 }
