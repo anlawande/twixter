@@ -28,4 +28,12 @@ public class TwixterDao {
     	List<Tweet> p = (List<Tweet>) jdbcTemplate.query(sql, namedParameters, new Tweet.TweetMapper());
     	return p;
     }
+    
+    public List<Tweet> getTweetsForFollowers(int id) {
+    	String sql = "SELECT tweet.* from tweet INNER JOIN personfollower ON tweet.person_id = personfollower.following INNER JOIN person ON person.id = personfollower.follower where person.id = :id;";
+    	Map<String, Object> namedParameters = new HashMap<String, Object>();
+    	namedParameters.put("id", id);
+    	List<Tweet> p = (List<Tweet>) jdbcTemplate.query(sql, namedParameters, new Tweet.TweetMapper());
+    	return p;
+    }
 }

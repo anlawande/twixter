@@ -26,4 +26,11 @@ public class TweetsTest {
 		Assert.assertEquals("Should be the first tweet", tweets.get(0).id , 1);
 		Assert.assertEquals("Text should be same", tweets.get(0).text , "This is some sample text");
 	}
+	
+	@Test
+	public void TweetsForUserFollowers() {
+		List<Tweet> tweets = dao.getTweetsForFollowers(1);
+		Assert.assertEquals("Should have 3 tweets", tweets.size() , 3);
+		Assert.assertEquals("Tweet should be from follower", tweets.get(0).person_id , 2);
+	}
 }
