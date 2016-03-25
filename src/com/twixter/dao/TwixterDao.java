@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
+import com.twixter.model.Person;
 import com.twixter.model.Tweet;
 
 @Repository
@@ -34,6 +35,22 @@ public class TwixterDao {
     	Map<String, Object> namedParameters = new HashMap<String, Object>();
     	namedParameters.put("id", id);
     	List<Tweet> p = (List<Tweet>) jdbcTemplate.query(sql, namedParameters, new Tweet.TweetMapper());
+    	return p;
+    }
+    
+    public List<Person> getFollowers(int id) {
+    	String sql = "SELECT person.* FROM personfollower INNER JOIN person ON person.id = personfollower.follower WHERE personfollower.following = :id;";
+    	Map<String, Object> namedParameters = new HashMap<String, Object>();
+    	namedParameters.put("id", id);
+    	List<Person> p = (List<Person>) jdbcTemplate.query(sql, namedParameters, new Person.PersonMapper());
+    	return p;
+    }
+    
+    public List<Person> getFollowing(int id) {
+    	String sql = "SELECT person.* FROM personfollower INNER JOIN person ON person.id = personfollower.following WHERE personfollower.follower = :id;";
+    	Map<String, Object> namedParameters = new HashMap<String, Object>();
+    	namedParameters.put("id", id);
+    	List<Person> p = (List<Person>) jdbcTemplate.query(sql, namedParameters, new Person.PersonMapper());
     	return p;
     }
 }

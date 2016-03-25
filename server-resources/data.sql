@@ -13,6 +13,9 @@ INSERT INTO tweet (person_id, text) VALUES (2, 'It\'s a paws-itively beautiful d
 INSERT INTO tweet (person_id, text) VALUES (2, 'Yesterday President Obama revealed his March Madness bracket. Check it out: http://ofa.bo/g9zF  #Baracketology');
 
 INSERT INTO personfollower (follower, following) VALUES (1, 2);
+INSERT INTO personfollower (follower, following) VALUES (1, 3);
 INSERT INTO personfollower (follower, following) VALUES (2, 3);
 INSERT INTO personfollower (follower, following) VALUES (3, 1);
+INSERT INTO personfollower (follower, following) VALUES (4, 1);
+INSERT INTO personfollower (follower, following) VALUES (6, 1);
 
