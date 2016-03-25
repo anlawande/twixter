@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twixter.dao.TwixterDao;
+import com.twixter.model.OperationResult;
 import com.twixter.model.Person;
 
 @RestController
@@ -59,5 +60,59 @@ public class PersonController {
 		}
 		
 		return dao.getFollowing(personId);
+	}
+	
+	@RequestMapping("/following/add/{followingId}")
+	public OperationResult addFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int personId = 0;
+		int followingId = 0;
+		if (personIdParam == null) {
+			resp.setStatus(400);
+			resp.getWriter().write("Bad request - Missing personId param");
+			return null;
+		}
+		try {
+			personId = Integer.parseInt(personIdParam);
+			followingId = Integer.parseInt(followingIdParam);
+		}
+		catch (NumberFormatException nfe) {
+			resp.setStatus(400);
+			resp.getWriter().write("Bad request - Cannot parse personId or followingId param");
+			return null;
+		}
+		
+		dao.addFollowing(personId, followingId);
+		
+		OperationResult op = new OperationResult();
+		op.setStatus("SUCCESS");
+		
+		return op;
+	}
+	
+	@RequestMapping("/following/remove/{followingId}")
+	public OperationResult removeFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int personId = 0;
+		int followingId = 0;
+		if (personIdParam == null) {
+			resp.setStatus(400);
+			resp.getWriter().write("Bad request - Missing personId param");
+			return null;
+		}
+		try {
+			personId = Integer.parseInt(personIdParam);
+			followingId = Integer.parseInt(followingIdParam);
+		}
+		catch (NumberFormatException nfe) {
+			resp.setStatus(400);
+			resp.getWriter().write("Bad request - Cannot parse personId or followingId param");
+			return null;
+		}
+		
+		dao.removeFollowing(personId, followingId);
+		
+		OperationResult op = new OperationResult();
+		op.setStatus("SUCCESS");
+		
+		return op;
 	}
 }
