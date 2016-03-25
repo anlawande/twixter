@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +16,14 @@ import com.twixter.dao.TwixterDao;
 import com.twixter.model.Tweet;
 
 @RestController
-@RequestMapping("/tweet")
+@RequestMapping("/person/{personId}/tweets")
 public class TweetController {
 	
 	@Autowired
 	private TwixterDao dao;
 
 	@RequestMapping(value="/self")
-	public @ResponseBody List<Tweet> getTweetsForPerson(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String personIdParam = req.getParameter("personId");
+	public @ResponseBody List<Tweet> getTweetsForPerson(@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String searchText = req.getParameter("search");
 		
 		int personId = 0;
@@ -45,8 +45,7 @@ public class TweetController {
 	}
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody List<Tweet> getTweetsForPersonAndFollowers(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String personIdParam = req.getParameter("personId");
+	public @ResponseBody List<Tweet> getTweetsForPersonAndFollowers(@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String searchText = req.getParameter("search");
 		
 		int personId = 0;
