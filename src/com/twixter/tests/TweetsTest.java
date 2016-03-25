@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.twixter.dao.Tweet;
 import com.twixter.dao.TwixterDao;
+import com.twixter.model.Tweet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/api-servlet.xml")

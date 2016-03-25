@@ -1,8 +1,9 @@
-package com.twixter.dao;
+package com.twixter.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 public class Tweet {

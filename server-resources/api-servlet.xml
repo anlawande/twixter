@@ -10,6 +10,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan base-package="com.twixter" />
+	<mvc:annotation-driven />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -36,5 +37,6 @@
 	</bean>
 
 	<context:property-placeholder location="classpath:jdbc.properties" />
-
+	<mvc:resources mapping="/public/**" location="/public/" />
+	
 </beans>
