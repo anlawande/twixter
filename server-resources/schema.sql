@@ -4,4 +4,4 @@ DROP TABLE IF EXISTS person;
 
 CREATE TABLE person (id INTEGER PRIMARY KEY AUTO_INCREMENT, name VARCHAR(200));
 CREATE TABLE tweet (id INTEGER PRIMARY KEY AUTO_INCREMENT, person_id INTEGER, text VARCHAR(140), FOREIGN KEY (person_id) REFERENCES person(id));
-CREATE TABLE personfollower (follower INTEGER NOT NULL, following INTEGER NOT NULL, FOREIGN KEY (follower) REFERENCES person(id), FOREIGN KEY (following) REFERENCES person(id));
+CREATE TABLE personfollower (follower INTEGER NOT NULL, following INTEGER NOT NULL, PRIMARY KEY (follower, following), FOREIGN KEY (follower) REFERENCES person(id), FOREIGN KEY (following) REFERENCES person(id));

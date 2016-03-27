@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
+import com.twixter.model.OperationResult;
 import com.twixter.model.Person;
 import com.twixter.model.Tweet;
 
@@ -54,12 +56,24 @@ public class TwixterDao {
     	return p;
     }
     
-    public void addFollowing(int follower, int following) {
+    public OperationResult addFollowing(int follower, int following) {
     	String sql = "INSERT INTO personfollower (follower, following) VALUES (:follower, :following);";
     	Map<String, Object> namedParameters = new HashMap<String, Object>();
     	namedParameters.put("follower", follower);
     	namedParameters.put("following", following);
-    	jdbcTemplate.update(sql, namedParameters);
+    	
+    	OperationResult op = new OperationResult();
+    	op.setStatus("SUCCESS");
+
+    	try {
+    		jdbcTemplate.update(sql, namedParameters);
+    	}
+    	catch (DuplicateKeyException dke) {
+    		op.setStatus("FAILED");
+    		op.setMessage("Duplicate row");
+    	}
+    	
+    	return op;
     }
     
     public void removeFollowing(int follower, int following) {

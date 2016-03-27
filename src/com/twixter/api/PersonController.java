@@ -81,12 +81,7 @@ public class PersonController {
 			return null;
 		}
 		
-		dao.addFollowing(personId, followingId);
-		
-		OperationResult op = new OperationResult();
-		op.setStatus("SUCCESS");
-		
-		return op;
+		return dao.addFollowing(personId, followingId);
 	}
 	
 	@RequestMapping("/{personId}/following/remove/{followingId}")

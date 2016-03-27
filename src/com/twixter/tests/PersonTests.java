@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.twixter.dao.TwixterDao;
+import com.twixter.model.OperationResult;
 import com.twixter.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,6 +49,17 @@ public class PersonTests {
 		List<Person> p = dao.getFollowing(1);
 		Assert.assertEquals("Should have 3 following", p.size(), 3);
 		Assert.assertTrue("1 should be following 6", containsPerson(p, 6));
+		dao.removeFollowing(1, 6);
+	}
+	
+	@Test
+	public void addFollowingDuplicate() {
+		dao.addFollowing(1, 6);
+		OperationResult op = dao.addFollowing(1, 6);
+		List<Person> p = dao.getFollowing(1);
+		Assert.assertEquals("Should have 3 following", p.size(), 3);
+		Assert.assertTrue("1 should be following 6", containsPerson(p, 6));
+		Assert.assertEquals("2nd call should have failed", op.status, "FAILED");
 		dao.removeFollowing(1, 6);
 	}
 	
