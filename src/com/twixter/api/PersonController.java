@@ -16,13 +16,13 @@ import com.twixter.model.OperationResult;
 import com.twixter.model.Person;
 
 @RestController
-@RequestMapping("/person/{personId}")
+@RequestMapping("/person")
 public class PersonController {
 	
 	@Autowired
 	TwixterDao dao;
 
-	@RequestMapping("/followers")
+	@RequestMapping("/{personId}/followers")
 	public List<Person> getFollowers (@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
 		if (personIdParam == null) {
@@ -42,7 +42,7 @@ public class PersonController {
 		return dao.getFollowers(personId);
 	}
 	
-	@RequestMapping("/following")
+	@RequestMapping("/{personId}/following")
 	public List<Person> getFollowing (@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
 		if (personIdParam == null) {
@@ -62,7 +62,7 @@ public class PersonController {
 		return dao.getFollowing(personId);
 	}
 	
-	@RequestMapping("/following/add/{followingId}")
+	@RequestMapping("/{personId}/following/add/{followingId}")
 	public OperationResult addFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
 		int followingId = 0;
@@ -89,7 +89,7 @@ public class PersonController {
 		return op;
 	}
 	
-	@RequestMapping("/following/remove/{followingId}")
+	@RequestMapping("/{personId}/following/remove/{followingId}")
 	public OperationResult removeFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
 		int followingId = 0;
@@ -114,5 +114,10 @@ public class PersonController {
 		op.setStatus("SUCCESS");
 		
 		return op;
+	}
+	
+	@RequestMapping("/all")
+	public List<Person> getAll () {
+		return dao.getPersons();
 	}
 }

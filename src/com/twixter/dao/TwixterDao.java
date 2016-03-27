@@ -69,4 +69,9 @@ public class TwixterDao {
     	namedParameters.put("following", following);
     	jdbcTemplate.update(sql, namedParameters);
     }
+    
+    public List<Person> getPersons() {
+    	String sql = "SELECT * FROM person";
+    	return (List<Person>) jdbcTemplate.query(sql, new Person.PersonMapper());
+    }
 }

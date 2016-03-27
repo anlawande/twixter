@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Twixter test page</title>
+        <script src="jquery-2.2.2.min.js"></script>
+        <script type="text/javascript">
+            var rootUrl = "/Twixter";
+
+            $(function() {
+                $("#loadBtn").on("click", function () {
+                    var authToken = $("#auth").val();
+                    $.ajax(rootUrl + "/person/all", {
+                        data: {authToken: authToken},
+                        success: function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                var person = data[i];
+                                $("#personSel").append("<option value='"+person.id+"'>id: "+person.id+", name: "+person.name+"</option>");
+                            }
+                            $(".form").show();
+                        }
+                    });
+                });
+
+                var selOn = false;
+                $("#qrySel").on("click", function () {
+                    selOn = !selOn;
+                    if (selOn)
+                        return;
+                    var qry = $("#qrySel").val();
+                    var qryStr = rootUrl;
+
+                    switch (qry) {
+                        case "tweetsSelf":
+                            qryStr += "/person/1/tweets/self";
+                            break;
+                        case "tweetsAll":
+                            qryStr += "/person/1/tweets/all";
+                            break;
+                        case "getfollowers":
+                            qryStr += "/person/1/followers";
+                            break;
+                        case "getfollowing":
+                            qryStr += "/person/1/following";
+                            break;
+                        case "addfollowing":
+                            qryStr += "/person/1/following/add/2";
+                            break;
+                        case "remfollowing":
+                            qryStr += "/person/1/following/remove/2";
+                            break;
+                    }
+
+                    $("#query").val(qryStr);
+                });
+
+                $("#qryBtn").on("click", function () {
+                    var qryVal = $("#query").val();
+                    var authToken = $("#auth").val();
+
+                    $.ajax(qryVal, {
+                        data: {authToken: authToken},
+                        success: function (data, status, resp) {
+                            if (resp.status === 200) {
+                                $("#qryResult").val(JSON.stringify(data));
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Twixter demo page</h1>
+        <h3>Auth</h3>
+        <label for="auth">Enter auth token</label>
+        <input type="text" name="auth" id="auth" /><input type="button" id="loadBtn" value="Load" />
+        <div class="form" style="display:none">
+            <h3>Query</h3>
+            <select name="qrySel" id="qrySel" value="">
+                <option value="tweetsSelf">Get self tweets</option>
+                <option value="tweetsAll">Get all tweets</option>
+                <option value="getfollowers">Get followers</option>
+                <option value="getfollowing">Get following</option>
+                <option value="addfollowing">Add following</option>
+                <option value="remfollowing">Remove following</option>
+            </select>
+            <select name="personSel" id="personSel" multiple size=3></select> <br/><br/>
+            <input type="text" name="query" id="query" size="50"/><input type="button" id="qryBtn" value="Query">
+            <h5>Query result</h5>
+            <textarea rows=15 cols=80 name="qryResult" id="qryResult"></textarea>
+        </div>
+    </body>
+</html>

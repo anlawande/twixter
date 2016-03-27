@@ -34,6 +34,11 @@ public class AuthFilter implements Filter {
     	HttpServletRequest req = (HttpServletRequest) servletRequest;
     	HttpServletResponse res = (HttpServletResponse) servletResponse;
     	
+    	if (req.getRequestURI().contains("/Twixter/public/")) {
+    		filterChain.doFilter(servletRequest, servletResponse);
+    		return;
+    	}
+    	
     	String authToken = req.getParameter("authToken");
     	if (!config.getProperty("web.authToken").equals(authToken)) {
     		res.setStatus(401);
