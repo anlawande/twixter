@@ -35,9 +35,30 @@ public class TweetsTest {
 	}
 	
 	@Test
+	public void TweetsForUserSearch() {
+		List<Tweet> tweets = dao.getTweetsForPerson(1, "sample");
+		Assert.assertEquals("Should have 1 tweet", tweets.size() , 1);
+		Assert.assertTrue("Should be the first tweet", containsTweet(tweets, 1));
+		Assert.assertEquals("Text should be same", tweets.get(0).text , "This is some sample text");
+	}
+	
+	@Test
 	public void TweetsForUserFollowers() {
 		List<Tweet> tweets = dao.getTweetsForFollowers(1);
 		Assert.assertEquals("Should have 3 tweets", tweets.size() , 3);
 		Assert.assertEquals("Tweet should be from follower", tweets.get(0).person_id , 2);
+	}
+	
+	@Test
+	public void TweetsForUserFollowersSearch() {
+		List<Tweet> tweets = dao.getTweetsForFollowers(1, "beautiful");
+		Assert.assertEquals("Should have 1 tweets", tweets.size() , 1);
+		Assert.assertEquals("Tweet should be from follower", tweets.get(0).person_id , 2);
+	}
+	
+	@Test
+	public void TweetsForUserFollowersSearchNotFound() {
+		List<Tweet> tweets = dao.getTweetsForFollowers(1, "bazinga!");
+		Assert.assertEquals("Should have 0 tweets", tweets.size() , 0);
 	}
 }
