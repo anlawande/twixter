@@ -27,13 +27,18 @@
                         return;
                     var qry = $("#qrySel").val();
                     var qryStr = rootUrl;
+                    
+                    var params = [];
+                    params.push("authToken=" + $("#auth").val());
 
                     switch (qry) {
                         case "tweetsSelf":
                             qryStr += "/person/1/tweets/self";
+                            params.push("search=");
                             break;
                         case "tweetsAll":
                             qryStr += "/person/1/tweets/all";
+                            params.push("search=");
                             break;
                         case "getfollowers":
                             qryStr += "/person/1/followers";
@@ -48,7 +53,9 @@
                             qryStr += "/person/1/following/remove/2";
                             break;
                     }
-
+                    
+                    qryStr += "?" + params.join("&");
+                    
                     $("#query").val(qryStr);
                 });
 

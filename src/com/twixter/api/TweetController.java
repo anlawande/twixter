@@ -41,7 +41,10 @@ public class TweetController {
 			return null;
 		}
 		
-		return dao.getTweetsForPerson(personId);
+		if (searchText != null)
+			return dao.getTweetsForPerson(personId, searchText);
+		else
+			return dao.getTweetsForPerson(personId);
 	}
 	
 	@RequestMapping(value="/all")
@@ -63,11 +66,18 @@ public class TweetController {
 			return null;
 		}
 		
-		//Self tweets
-		List<Tweet> tweets = dao.getTweetsForPerson(personId);
+		List<Tweet> tweets = null;
 		
-		//Followers tweets
-		tweets.addAll(dao.getTweetsForFollowers(personId));
+		if (searchText != null) {
+			//Self tweets
+			tweets = dao.getTweetsForPerson(personId, searchText);
+			//Followers tweets
+			tweets.addAll(dao.getTweetsForFollowers(personId, searchText));
+		}
+		else {
+			tweets = dao.getTweetsForPerson(personId);
+			tweets.addAll(dao.getTweetsForFollowers(personId));
+		}
 		
 		return tweets;
 	}
