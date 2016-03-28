@@ -15,6 +15,11 @@ import com.twixter.dao.TwixterDao;
 import com.twixter.model.OperationResult;
 import com.twixter.model.Person;
 
+/**
+ * Api controller for person based calls
+ * @author Aniket
+ *
+ */
 @RestController
 @RequestMapping("/person")
 public class PersonController {
@@ -22,6 +27,15 @@ public class PersonController {
 	@Autowired
 	TwixterDao dao;
 
+	/**
+	 * Get followers for personId
+	 * 
+	 * @param personIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/{personId}/followers")
 	public List<Person> getFollowers (@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
@@ -42,6 +56,15 @@ public class PersonController {
 		return dao.getFollowers(personId);
 	}
 	
+	/**
+	 * Get persons personId is following
+	 * 
+	 * @param personIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/{personId}/following")
 	public List<Person> getFollowing (@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
@@ -62,6 +85,16 @@ public class PersonController {
 		return dao.getFollowing(personId);
 	}
 	
+	/**
+	 * Add followingId to personId's following list
+	 * 
+	 * @param personIdParam
+	 * @param followingIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/{personId}/following/add/{followingId}")
 	public OperationResult addFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
@@ -84,6 +117,16 @@ public class PersonController {
 		return dao.addFollowing(personId, followingId);
 	}
 	
+	/**
+	 * Remove followingId from personId's following list
+	 * 
+	 * @param personIdParam
+	 * @param followingIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/{personId}/following/remove/{followingId}")
 	public OperationResult removeFollowing (@PathVariable("personId") String personIdParam, @PathVariable("followingId") String followingIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int personId = 0;
@@ -111,6 +154,11 @@ public class PersonController {
 		return op;
 	}
 	
+	/**
+	 * Convenience method for demo page
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/all")
 	public List<Person> getAll () {
 		return dao.getPersons();

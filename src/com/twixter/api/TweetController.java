@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.twixter.dao.TwixterDao;
 import com.twixter.model.Tweet;
 
+/**
+ * Api Controller for tweet based calls
+ * @author Aniket
+ *
+ */
 @RestController
 @RequestMapping("/person/{personId}/tweets")
 public class TweetController {
@@ -22,6 +27,15 @@ public class TweetController {
 	@Autowired
 	private TwixterDao dao;
 
+	/**
+	 * Get tweets posted by personId
+	 * 
+	 * @param personIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/self")
 	public @ResponseBody List<Tweet> getTweetsForPerson(@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String searchText = req.getParameter("search");
@@ -47,6 +61,15 @@ public class TweetController {
 			return dao.getTweetsForPerson(personId);
 	}
 	
+	/**
+	 * Get tweets posted by personId and persons they are following
+	 * 
+	 * @param personIdParam
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/all")
 	public @ResponseBody List<Tweet> getTweetsForPersonAndFollowers(@PathVariable("personId") String personIdParam, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String searchText = req.getParameter("search");
