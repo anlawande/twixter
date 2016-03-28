@@ -72,6 +72,13 @@
                         }
                     });
                 });
+                
+                $("#personSel").on("click", function () {
+                    var val = $("#personSel").val();
+                    var qryStr = $("#query").val();
+                    qryStr = qryStr.replace(/person\/\d+\//, "person/"+val+"/");
+                    $("#query").val(qryStr);
+                })
             });
         </script>
     </head>
